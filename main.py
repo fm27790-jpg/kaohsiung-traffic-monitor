@@ -7,12 +7,17 @@ from datetime import datetime
 TOKEN = os.environ.get("THREADS_TOKEN")
 
 
-# Threads Keyword Search
 url = "https://graph.threads.net/v1.0/keyword_search"
 
 
 keywords = [
-    "高雄"
+    "高雄",
+    "塞車",
+    "車禍",
+    "事故",
+    "施工",
+    "淹水",
+    "號誌"
 ]
 
 
@@ -28,12 +33,16 @@ for keyword in keywords:
     }
 
 
-    r = requests.get(url, params=params)
+    r = requests.get(
+        url,
+        params=params
+    )
 
 
-    print("搜尋:", keyword)
-    print("狀態:", r.status_code)
-    print(r.text)
+    print("====================")
+    print("關鍵字:", keyword)
+    print("HTTP:", r.status_code)
+    print(r.text[:1000])
 
 
     if r.status_code == 200:
@@ -55,8 +64,8 @@ result = {
 
     "posts":
         all_posts
-}
 
+}
 
 
 with open(
@@ -73,4 +82,5 @@ with open(
     )
 
 
-print("完成，共抓到", len(all_posts), "筆")
+print("====================")
+print("總筆數:", len(all_posts))

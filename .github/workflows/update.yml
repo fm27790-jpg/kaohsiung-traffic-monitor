@@ -1,5 +1,9 @@
 name: Update Traffic Data
 
+permissions:
+  contents: write
+
+
 on:
   schedule:
     - cron: "*/5 * * * *"
@@ -8,14 +12,18 @@ on:
 
 
 jobs:
+
   update:
 
     runs-on: ubuntu-latest
+
 
     steps:
 
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        persist-credentials: true
 
 
     - name: Setup Python
@@ -40,6 +48,9 @@ jobs:
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "action@github.com"
+
         git add traffic.json
+
         git commit -m "Update traffic data" || exit 0
+
         git push
